@@ -1,0 +1,4 @@
+auths:
+us:pas
+server:
+http://127.0.0.1/users
