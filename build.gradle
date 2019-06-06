@@ -17,5 +17,6 @@ dependencies {
     compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.16'
 // https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-jackson
     compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.16'
-    compile files("C:\\Users\\AVE\\IdeaProjects\\fitnessfanaticsHTTPhelper\\build\\libs\\http-helper-1.0-SNAPSHOT.jar")
+    //compile files("C:\\Users\\AVE\\IdeaProjects\\fitnessfanaticsHTTPhelper\\build\\libs\\http-helper-1.0-SNAPSHOT.jar")
+    compile files("C:\\Users\\Andy blarblar\\IdeaProjects\\http-helper\\build\\libs\\http-helper-1.0-SNAPSHOT.jar")
 }

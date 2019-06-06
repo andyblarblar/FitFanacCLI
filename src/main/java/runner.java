@@ -1,6 +1,6 @@
 import org.juniorgang.util.ApplicationContext;
 import org.juniorgang.util.HTTPService;
-import org.juniorgang.util.User;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,32 +10,63 @@ import java.util.regex.Pattern;
 public class runner {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        HTTPService service;
-        File configs = new File("src/resources/configs.txt");
-        if(!configs.exists()){HTTPService.createConfigsFile();}
+        String temp;
 
-        HTTPService.createConfigsFile(askForAuths(),"127.0.0.1:8080");
-        service = new HTTPService(ApplicationContext.initialize());
+        File configs = new File("src/main/resources/configs.txt");
+        if(!configs.exists()){ HTTPService.createConfigsFile();}
+
+        HTTPService service = new HTTPService(ApplicationContext.initialize());
+
+        pre: while (true) {
+            System.out.println("press 1 to  login, 2 to create a new account, or 3 for options...");
+            temp = sc.next();
+
+            switch (temp) {
+                case "1":
+                    service.setAuths(askForAuths());
+                    if (!service.testAuths()) {
+                        System.out.println("login unsucsessful, may be wrong, uncreated, or server ip is bad");
+                        break;
+                    }
+                    break pre;
+
+                case "2":
+                    try {
+                        createUser(service);//might throug
+                    }
+                    catch (Exception e){System.out.println("the server is either offline, or you need to reconfigure the IP");}
+                    break;
+
+                case "3":
+                    options(service);
+                    break;
+
+            }
+        }
 
         main: while (true){//main logic loop
-            System.out.println("1) create your user (if new)\n" +
-                    "2) see your stats\n" +
-                    "3) logout \n"+
+            System.out.println(
+                    "1) see your account\n" +
+                    "2) logout \n" +
+                    "3) options\n"+
                     "please enter your section");
 
             switch (sc.next()){
-                case "1": createUser(service);
+                case "1": getUser(service);
                 break;
-                case "2": getUser(service);
-                break;
-                case "3":logout(service);
+
+                case "2":logout(service);
                 service.setAuths(askForAuths());
                 break;
+
+                case "3": options(service);
+                break;
+
             }
 
         }
 
-    }
+    }//end main
 
     public static String askForAuths(){
         Scanner sc = new Scanner(System.in);
@@ -44,6 +75,7 @@ public class runner {
     }
 
     public static void createUser(HTTPService service){
+        askForAuths();
         Scanner sc = new Scanner(System.in);
         System.out.println("please enter your first name and last name");
         String fname = sc.next();
@@ -63,6 +95,31 @@ public class runner {
         System.out.println(service.doGET().readEntity(User.class));
     }
 
+    /**
+     * displays the app options
+     */
+    public static void options(HTTPService service) {
+
+         l: while (true) {
+            System.out.println("1) change server ip\n" +
+                    "Q to quit\n" +
+                    "enter your selection...");
+            Scanner sc = new Scanner(System.in);
+            String in = sc.next();
+
+            switch (in){
+                case "1":
+                    System.out.println("enter the servers IP address...");
+                    in = sc.next();
+                    service.setServerAddress(in);
+                    System.out.println("set server address to: "+ service.getServerAddress());
+                    break;
+                case "Q":
+                    break l;
+
+            }
+        }
+    }
 
 
 }
