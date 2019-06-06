@@ -17,38 +17,14 @@ public class runner {
 
         HTTPService service = new HTTPService(ApplicationContext.initialize());
 
-        pre: while (true) {
-            System.out.println("press 1 to  login, 2 to create a new account, or 3 for options...");
-            temp = sc.next();
-
-            switch (temp) {
-                case "1":
-                    service.setAuths(askForAuths());
-                    if (!service.testAuths()) {
-                        System.out.println("login unsucsessful, may be wrong, uncreated, or server ip is bad");
-                        break;
-                    }
-                    break pre;
-
-                case "2":
-                    try {
-                        createUser(service);//might throug
-                    }
-                    catch (Exception e){System.out.println("the server is either offline, or you need to reconfigure the IP");}
-                    break;
-
-                case "3":
-                    options(service);
-                    break;
-
-            }
-        }
+        loginScreen(service);
 
         main: while (true){//main logic loop
             System.out.println(
                     "1) see your account\n" +
                     "2) logout \n" +
-                    "3) options\n"+
+                    "3) options\n" +
+                            "Q to quit\n"+
                     "please enter your section");
 
             switch (sc.next()){
@@ -56,11 +32,14 @@ public class runner {
                 break;
 
                 case "2":logout(service);
-                service.setAuths(askForAuths());
+                loginScreen(service);
                 break;
 
                 case "3": options(service);
                 break;
+
+                case "Q":
+                    break main;
 
             }
 
@@ -68,6 +47,10 @@ public class runner {
 
     }//end main
 
+    /**
+     * promts and optains the users username and password
+     * @return the unformated auths entered by the user. Is conformed to be .+ .+
+     */
     public static String askForAuths(){
         Scanner sc = new Scanner(System.in);
         System.out.println("please enter your Username and Password...");
@@ -75,7 +58,7 @@ public class runner {
     }
 
     public static void createUser(HTTPService service){
-        askForAuths();
+        service.setAuths(askForAuths());
         Scanner sc = new Scanner(System.in);
         System.out.println("please enter your first name and last name");
         String fname = sc.next();
@@ -119,6 +102,44 @@ public class runner {
 
             }
         }
+    }
+
+    /**
+     * displays the initial menu for logging in
+     */
+    public static void loginScreen(HTTPService service){
+        Scanner sc = new Scanner(System.in);
+        String temp = "";
+        pre: while (true) {
+            System.out.println("press 1 to login, 2 to create a new account, 3 for options, or Q to quit...");
+            temp = sc.next();
+
+            switch (temp) {
+                case "1":
+                    service.setAuths(askForAuths());
+                    if (!service.testAuths()) {
+                        System.out.println("login unsuccessful, may be wrong, uncreated, or server ip is bad");
+                        break;
+                    }
+                    break pre;
+
+                case "2":
+                    try {
+                        createUser(service);
+                    }
+                    catch (Exception e){System.out.println("the server is either offline, or you need to reconfigure the IP");}
+                    break;
+
+                case "3":
+                    options(service);
+                    break;
+
+                case "Q":
+                    System.exit(0);//quits program
+
+            }
+        }
+
     }
 
 

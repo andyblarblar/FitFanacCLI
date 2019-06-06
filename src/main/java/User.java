@@ -8,6 +8,9 @@ public class User extends org.juniorgang.util.User {
         this.lname = lname;
     }
 
+    public User() {
+    }
+
     public String getFname() {
         return fname;
     }
