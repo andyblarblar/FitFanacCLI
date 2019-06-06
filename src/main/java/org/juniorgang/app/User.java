@@ -1,3 +1,4 @@
+package org.juniorgang.app;
 
 public class User extends org.juniorgang.util.User {
     private String fname;
@@ -29,7 +30,7 @@ public class User extends org.juniorgang.util.User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "org.juniorgang.app.User{" +
                 "fname='" + fname + '\'' +
                 ", lname='" + lname + '\'' +
                 '}';

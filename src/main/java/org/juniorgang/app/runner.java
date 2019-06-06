@@ -1,9 +1,10 @@
+package org.juniorgang.app;
+
 import org.juniorgang.util.ApplicationContext;
 import org.juniorgang.util.HTTPService;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 

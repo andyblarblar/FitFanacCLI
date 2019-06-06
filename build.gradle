@@ -5,7 +5,10 @@ plugins {
 
 group 'juniorgang'
 version '1.0-SNAPSHOT'
-mainClassName = "runner"
+
+application {
+    mainClassName = "org.juniorgang.app.runner"
+}
 sourceCompatibility = 1.8
 
 repositories {
